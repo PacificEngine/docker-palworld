@@ -5,7 +5,7 @@ https://hub.docker.com/r/pacificengine/palworld
 # Configuration Parameters
 ```shell
 serverport=8211
-reliableport=8212
+apiport=8212
 directory=/home/palworld
 username=palworld
 service=palworld
@@ -25,10 +25,9 @@ chmod 755 -R "${directory}"
 ```shell
 docker run -d --name ${service} \
   --publish ${serverport}:${serverport}/udp \
-  --publish ${serverport}:${serverport}/tcp \
-  --publish ${reliableport}:${reliableport}/tcp \
+  --publish ${apiport}:${apiport}/tcp \
   --env PORT_SERVER=${serverport} \
-  --env PORT_RELIABLE=${reliableport} \
+  --env PORT_API=${apiport} \
   --env AUTO_UPDATE=true \
   --env PUID=$(id -u ${username}) \
   --env PGID=$(id -g ${username}) \
@@ -51,22 +50,23 @@ docker system prune -a
 ## Stable
 ```shell
 DISTRIBUTION=ubuntu-20
-VERSION=0.6.1
+GAME_VERSION=0.6.1
+GIT_VERSION="$(git rev-parse --short HEAD)"
 docker build --file "build.Dockerfile" --tag "palworld:latest" --build-arg DISTRIBUTION=${DISTRIBUTION} .
 docker image tag palworld:latest pacificengine/palworld:${DISTRIBUTION}-stable
 docker image tag palworld:latest pacificengine/palworld:stable
 docker image tag palworld:latest pacificengine/palworld:${DISTRIBUTION}-latest
 docker image tag palworld:latest pacificengine/palworld:latest
-docker image tag palworld:latest pacificengine/palworld:$(git rev-parse --short HEAD)-stable
-docker image tag palworld:latest pacificengine/palworld:$(git rev-parse --short HEAD)
-docker image tag palworld:latest pacificengine/palworld:${VERSION}-stable
-docker image tag palworld:latest pacificengine/palworld:${VERSION}
+docker image tag palworld:latest pacificengine/palworld:${GIT_VERSION}-stable
+docker image tag palworld:latest pacificengine/palworld:${GIT_VERSION}
+docker image tag palworld:latest pacificengine/palworld:${GAME_VERSION}-stable
+docker image tag palworld:latest pacificengine/palworld:${GAME_VERSION}
 docker push pacificengine/palworld:${DISTRIBUTION}-stable
 docker push pacificengine/palworld:stable
 docker push pacificengine/palworld:${DISTRIBUTION}-latest
 docker push pacificengine/palworld:latest
-docker push pacificengine/palworld:$(git rev-parse --short HEAD)-stable
-docker push pacificengine/palworld:$(git rev-parse --short HEAD)
-docker push pacificengine/palworld:${VERSION}-stable
-docker push pacificengine/palworld:${VERSION}
+docker push pacificengine/palworld:${GIT_VERSION}-stable
+docker push pacificengine/palworld:${GIT_VERSION}
+docker push pacificengine/palworld:${GAME_VERSION}-stable
+docker push pacificengine/palworld:${GAME_VERSION}
 ```

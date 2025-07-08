@@ -11,14 +11,16 @@ GAME_ID="$(getProperty "GAME_ID")"
 
 IP_SERVER="${IP_SERVER:-$(getProperty "IP_SERVER")}"
 PORT_SERVER="${PORT_SERVER:-$(getProperty "PORT_SERVER")}"
-PORT_PUBLIC="${PORT_PUBLIC:-$(getProperty "PORT_PUBLIC")}"
+PORT_API="${PORT_API:-$(getProperty "PORT_API")}"
 AUTO_UPDATE="${AUTO_UPDATE:-$(getProperty "AUTO_UPDATE")}"
 THREAD_COUNT="${THREAD_COUNT:-$(getProperty "THREAD_COUNT")}"
 PLAYER_COUNT="${PLAYER_COUNT:-$(getProperty "PLAYER_COUNT")}"
+ADDITIONAL_COMMANDS=''
+if [[ "${THREAD_COUNT}" -gt '1' ]]; then
+  ADDITIONAL_COMMANDS="${ADDITIONAL_COMMANDS} -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS"
+fi
 if [[ "${IS_PUBLIC:-$(getProperty "IS_PUBLIC")}" == 'true' ]]; then
-  IS_PUBLIC='-publiclobby'
-else
-  IS_PUBLIC=''
+  ADDITIONAL_COMMANDS="${ADDITIONAL_COMMANDS} -publiclobby"
 fi
 
 DATE="$(date "+%F-%H:%M:%S")"
@@ -27,12 +29,12 @@ INPUT_FILE="${LOG_DIRECTORY}/input.log"
 UPDATE_LOG_FILE="${LOG_DIRECTORY}/update.log"
 SIMPLE_LOG_FILE="${LOG_DIRECTORY}/simple.log"
 CURRENT_USERS_FILE="${LOG_DIRECTORY}/user.csv"
-MAIN_LOG_FILE="${LOG_DIRECTORY}/Pal.log"
+MAIN_LOG_FILE="${LOG_DIRECTORY}/PalWorld.log"
 PROCESS_ID_FILE="${INSTALL_DIRECTORY}/process.id"
 PROCESS_STATUS_FILE="${INSTALL_DIRECTORY}/process.status"
 UPDATE_SCRIPT="${INSTALL_DIRECTORY}/update.script"
 START_SCRIPT="${INSTALL_DIRECTORY}/PalServer.sh"
-START_ARGUMENTS="-publicip=${IP_SERVER} ${IS_PUBLIC} -port=${PORT_SERVER} -publicport=${PORT_PUBLIC} -players=${PLAYER_COUNT} -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS -NumberOfWorkerThreadsServer=${THREAD_COUNT} -logformat=json"
+START_ARGUMENTS="-publicip=${IP_SERVER} -port=${PORT_SERVER} -publicport=${PORT_API} -players=${PLAYER_COUNT} ${ADDITIONAL_COMMANDS} -NumberOfWorkerThreadsServer=${THREAD_COUNT} -logformat=text"
 
 runCommandAsLocalUser() {
   su --login "${USERNAME}" --shell /bin/bash --command "${@}"
@@ -149,7 +151,7 @@ startServer() {
 
   if [[ "$(cat "${PROCESS_STATUS_FILE}")" == "STARTING" ]]; then
     log "Booting Server"
-    runCommandAsLocalUser "tail --follow=name --retry --lines=0 '${INPUT_FILE}' | '${START_SCRIPT}' ${START_ARGUMENTS}" &
+    runCommandAsLocalUser "tail --follow=name --retry --lines=0 '${INPUT_FILE}' | '${START_SCRIPT}' ${START_ARGUMENTS}" > "${MAIN_LOG_FILE}" &
     while [[ "$(cat "${PROCESS_STATUS_FILE}")" == "STARTING" ]]; do
       id="$(getServerProcessId)"
       if [[ -n "${id}" ]]; then
