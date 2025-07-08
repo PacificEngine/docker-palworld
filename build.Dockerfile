@@ -9,7 +9,7 @@ RUN apt-get update && \
     jq
 
 ARG INSTALL_DIRECTORY='/home/palworld'
-ARG LOG_DIRECTORY="${INSTALL_DIRECTORY}/FactoryGame/Saved/Logs"
+ARG LOG_DIRECTORY="${INSTALL_DIRECTORY}/Pal/Saved/Logs"
 ARG USERNAME='palworld'
 ARG USERGROUP='palworld'
 RUN mkdir --parents ${LOG_DIRECTORY} && \
@@ -47,11 +47,11 @@ RUN cat '/server/properties.template' \
     | sed --regexp-extended "s/<%USERGROUP%>/${USERGROUP//\//\\/}/g" \
     | sed --regexp-extended "s/<%GAME_ID%>/${GAME_ID//\//\\/}/g" \
     | sed --regexp-extended "s/<%IP_SERVER%>/${IP_SERVER:-0.0.0.0}/g" \
-    | sed --regexp-extended "s/<%THREAD_COUNT%>/${THREAD_COUNT:-0.0.0.0}/g" \
+    | sed --regexp-extended "s/<%THREAD_COUNT%>/${THREAD_COUNT:-4}/g" \
     | sed --regexp-extended "s/<%PLAYER_COUNT%>/${PLAYER_COUNT:-32}/g" \
     | sed --regexp-extended "s/<%PORT_SERVER%>/${PORT_SERVER:-8211}/g" \
     | sed --regexp-extended "s/<%PORT_PUBLIC%>/${PORT_PUBLIC:-8212}/g" \
-    | sed --regexp-extended "s/<%IS_PUBLIC%>/${IS_PUBLIC:-8888}/g" \
+    | sed --regexp-extended "s/<%IS_PUBLIC%>/${IS_PUBLIC:-false}/g" \
     | sed --regexp-extended "s/<%AUTO_UPDATE%>/${AUTO_UPDATE:-true}/g" \
     > '/server/properties' && \
   rm '/server/properties.template' && \

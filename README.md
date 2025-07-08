@@ -1,11 +1,11 @@
 # Docker Repo
-https://hub.docker.com/r/pacificengine/satisfactory
+https://hub.docker.com/r/pacificengine/palworld
 
 # Usage
 # Configuration Parameters
 ```shell
-serverport=7777
-reliableport=8888
+serverport=8211
+reliableport=8212
 directory=/home/palworld
 username=palworld
 service=palworld
@@ -17,7 +17,6 @@ version=release
 mkdir -p "${directory}/logs"
 mkdir -p "${directory}/config"
 mkdir -p "${directory}/saves"
-touch "${directory}/GUID.ini"
 chown $(id -u ${username}):$(id -g ${username}) -R "${directory}"
 chmod 755 -R "${directory}"
 ```
@@ -33,11 +32,10 @@ docker run -d --name ${service} \
   --env AUTO_UPDATE=true \
   --env PUID=$(id -u ${username}) \
   --env PGID=$(id -g ${username}) \
-  --mount type=bind,source=${directory}/logs,target=/home/satisfactory/FactoryGame/Saved/Logs \
-  --mount type=bind,source=${directory}/config,target=/home/satisfactory/FactoryGame/Saved/Config/LinuxServer \
-  --mount type=bind,source=${directory}/saves,target=/home/satisfactory/.config/Epic/FactoryGame/Saved/SaveGames \
-  --mount type=bind,source=${directory}/GUID.ini,target=/home/satisfactory/.config/Epic/FactoryGame/GUID.ini \
-  --restart unless-stopped pacificengine/satisfactory:${version}
+  --mount type=bind,source=${directory}/logs,target=/home/palworld/Pal/Saved/Logs \
+  --mount type=bind,source=${directory}/config,target=/home/palworld/Pal/Saved/Config/LinuxServer \
+  --mount type=bind,source=${directory}/saves,target=/home/palworld/Pal/Saved/SaveGames \
+  --restart unless-stopped pacificengine/palworld:${version}
 ```
 
 # Build

@@ -27,12 +27,12 @@ INPUT_FILE="${LOG_DIRECTORY}/input.log"
 UPDATE_LOG_FILE="${LOG_DIRECTORY}/update.log"
 SIMPLE_LOG_FILE="${LOG_DIRECTORY}/simple.log"
 CURRENT_USERS_FILE="${LOG_DIRECTORY}/user.csv"
-MAIN_LOG_FILE="${LOG_DIRECTORY}/FactoryGame.log"
+MAIN_LOG_FILE="${LOG_DIRECTORY}/Pal.log"
 PROCESS_ID_FILE="${INSTALL_DIRECTORY}/process.id"
 PROCESS_STATUS_FILE="${INSTALL_DIRECTORY}/process.status"
 UPDATE_SCRIPT="${INSTALL_DIRECTORY}/update.script"
-START_SCRIPT="${INSTALL_DIRECTORY}/FactoryServer.sh"
-START_ARGUMENTS="-publicip=${IP_SERVER} ${IS_PUBLIC} -port=${PORT_SERVER} -publicport=${PORT_PUBLIC} -players=${PLAYER_COUNT} -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS -NumberOfWorkerThreadsServer=${THREAD_COUNT} -logformat=text"
+START_SCRIPT="${INSTALL_DIRECTORY}/PalServer.sh"
+START_ARGUMENTS="-publicip=${IP_SERVER} ${IS_PUBLIC} -port=${PORT_SERVER} -publicport=${PORT_PUBLIC} -players=${PLAYER_COUNT} -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS -NumberOfWorkerThreadsServer=${THREAD_COUNT} -logformat=json"
 
 runCommandAsLocalUser() {
   su --login "${USERNAME}" --shell /bin/bash --command "${@}"
@@ -45,7 +45,7 @@ log() {
 getServerProcessId() {
   local id="$(cat "${PROCESS_ID_FILE}")"
   if [[ -z "${id}" || -z "$(ps --pid ${id} --no-headers)" ]]; then
-    id=$(getProcess '' '\sFactoryGame\s')
+    id=$(getProcess '' '\sPal\s')
     runCommandAsLocalUser "echo '${id}' > '${PROCESS_ID_FILE}'"
   fi
   echo "${id}"
