@@ -51,11 +51,9 @@ RUN cat '/server/properties.template' \
     | sed --regexp-extended "s/<%USERNAME%>/${USERNAME//\//\\/}/g" \
     | sed --regexp-extended "s/<%USERGROUP%>/${USERGROUP//\//\\/}/g" \
     | sed --regexp-extended "s/<%GAME_ID%>/${GAME_ID//\//\\/}/g" \
-    | sed --regexp-extended "s/<%IP_SERVER%>/${IP_SERVER:-0.0.0.0}/g" \
     | sed --regexp-extended "s/<%THREAD_COUNT%>/${THREAD_COUNT:-4}/g" \
     | sed --regexp-extended "s/<%PLAYER_COUNT%>/${PLAYER_COUNT:-32}/g" \
     | sed --regexp-extended "s/<%PORT_SERVER%>/${PORT_SERVER:-8211}/g" \
-    | sed --regexp-extended "s/<%PORT_API%>/${PORT_API:-8212}/g" \
     | sed --regexp-extended "s/<%PORT_QUERY%>/${PORT_QUERY:-27015}/g" \
     | sed --regexp-extended "s/<%IS_PUBLIC%>/${IS_PUBLIC:-false}/g" \
     | sed --regexp-extended "s/<%AUTO_UPDATE%>/${AUTO_UPDATE:-true}/g" \

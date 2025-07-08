@@ -26,10 +26,10 @@ chmod 755 -R "${directory}"
 ```shell
 docker run -d --name ${service} \
   --publish ${serverport}:${serverport}/udp \
-  --publish ${apiport}:${apiport}/tcp \
+  --publish ${publicport}:${publicport}/tcp \
   --publish ${queryport}:${queryport}/udp \
   --env PORT_SERVER=${serverport} \
-  --env PORT_API=${apiport} \
+  --env PORT_PUBLIC=${publicport} \
   --env PORT_QUERY=${queryport} \
   --env AUTO_UPDATE=true \
   --env PUID=$(id -u ${username}) \
