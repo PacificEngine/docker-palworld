@@ -56,7 +56,7 @@ RUN cat '/server/properties.template' \
     | sed --regexp-extended "s/<%PLAYER_COUNT%>/${PLAYER_COUNT:-32}/g" \
     | sed --regexp-extended "s/<%PORT_SERVER%>/${PORT_SERVER:-8211}/g" \
     | sed --regexp-extended "s/<%PORT_API%>/${PORT_API:-8212}/g" \
-    | sed --regexp-extended "s/<%PORT_QUERY%>/${PORT_QUERY:-8213}/g" \
+    | sed --regexp-extended "s/<%PORT_QUERY%>/${PORT_QUERY:-27015}/g" \
     | sed --regexp-extended "s/<%IS_PUBLIC%>/${IS_PUBLIC:-false}/g" \
     | sed --regexp-extended "s/<%AUTO_UPDATE%>/${AUTO_UPDATE:-true}/g" \
     > '/server/properties' && \
