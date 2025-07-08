@@ -53,22 +53,22 @@ docker system prune -a
 ## Stable
 ```shell
 DISTRIBUTION=ubuntu-20
-VERSION=1.1.1.1
-docker build --file "build.Dockerfile" --tag "satisfactory:latest" --build-arg DISTRIBUTION=${DISTRIBUTION} .
-docker image tag satisfactory:latest pacificengine/satisfactory:${DISTRIBUTION}-stable
-docker image tag satisfactory:latest pacificengine/satisfactory:stable
-docker image tag satisfactory:latest pacificengine/satisfactory:${DISTRIBUTION}-latest
-docker image tag satisfactory:latest pacificengine/satisfactory:latest
-docker image tag satisfactory:latest pacificengine/satisfactory:$(git rev-parse --short HEAD)-stable
-docker image tag satisfactory:latest pacificengine/satisfactory:$(git rev-parse --short HEAD)
-docker image tag satisfactory:latest pacificengine/satisfactory:${VERSION}-stable
-docker image tag satisfactory:latest pacificengine/satisfactory:${VERSION}
-docker push pacificengine/satisfactory:${DISTRIBUTION}-stable
-docker push pacificengine/satisfactory:stable
-docker push pacificengine/satisfactory:${DISTRIBUTION}-latest
-docker push pacificengine/satisfactory:latest
-docker push pacificengine/satisfactory:$(git rev-parse --short HEAD)-stable
-docker push pacificengine/satisfactory:$(git rev-parse --short HEAD)
-docker push pacificengine/satisfactory:${VERSION}-stable
-docker push pacificengine/satisfactory:${VERSION}
+VERSION=0.6.1
+docker build --file "build.Dockerfile" --tag "palworld:latest" --build-arg DISTRIBUTION=${DISTRIBUTION} .
+docker image tag palworld:latest pacificengine/palworld:${DISTRIBUTION}-stable
+docker image tag palworld:latest pacificengine/palworld:stable
+docker image tag palworld:latest pacificengine/palworld:${DISTRIBUTION}-latest
+docker image tag palworld:latest pacificengine/palworld:latest
+docker image tag palworld:latest pacificengine/palworld:$(git rev-parse --short HEAD)-stable
+docker image tag palworld:latest pacificengine/palworld:$(git rev-parse --short HEAD)
+docker image tag palworld:latest pacificengine/palworld:${VERSION}-stable
+docker image tag palworld:latest pacificengine/palworld:${VERSION}
+docker push pacificengine/palworld:${DISTRIBUTION}-stable
+docker push pacificengine/palworld:stable
+docker push pacificengine/palworld:${DISTRIBUTION}-latest
+docker push pacificengine/palworld:latest
+docker push pacificengine/palworld:$(git rev-parse --short HEAD)-stable
+docker push pacificengine/palworld:$(git rev-parse --short HEAD)
+docker push pacificengine/palworld:${VERSION}-stable
+docker push pacificengine/palworld:${VERSION}
 ```

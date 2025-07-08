@@ -11,8 +11,15 @@ GAME_ID="$(getProperty "GAME_ID")"
 
 IP_SERVER="${IP_SERVER:-$(getProperty "IP_SERVER")}"
 PORT_SERVER="${PORT_SERVER:-$(getProperty "PORT_SERVER")}"
-PORT_RELIABLE="${PORT_RELIABLE:-$(getProperty "PORT_RELIABLE")}"
+PORT_PUBLIC="${PORT_PUBLIC:-$(getProperty "PORT_PUBLIC")}"
 AUTO_UPDATE="${AUTO_UPDATE:-$(getProperty "AUTO_UPDATE")}"
+THREAD_COUNT="${THREAD_COUNT:-$(getProperty "THREAD_COUNT")}"
+PLAYER_COUNT="${PLAYER_COUNT:-$(getProperty "PLAYER_COUNT")}"
+if [[ "${IS_PUBLIC:-$(getProperty "IS_PUBLIC")}" == 'true' ]]; then
+  IS_PUBLIC='-publiclobby'
+else
+  IS_PUBLIC=''
+fi
 
 DATE="$(date "+%F-%H:%M:%S")"
 LOG_DATE_FORMAT="+%FT%H:%M:%S"
@@ -25,7 +32,7 @@ PROCESS_ID_FILE="${INSTALL_DIRECTORY}/process.id"
 PROCESS_STATUS_FILE="${INSTALL_DIRECTORY}/process.status"
 UPDATE_SCRIPT="${INSTALL_DIRECTORY}/update.script"
 START_SCRIPT="${INSTALL_DIRECTORY}/FactoryServer.sh"
-START_ARGUMENTS="-multihome=${IP_SERVER} -Port=${PORT_SERVER} -ReliablePort=${PORT_RELIABLE} -log -unattended"
+START_ARGUMENTS="-publicip=${IP_SERVER} ${IS_PUBLIC} -port=${PORT_SERVER} -publicport=${PORT_PUBLIC} -players=${PLAYER_COUNT} -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS -NumberOfWorkerThreadsServer=${THREAD_COUNT} -logformat=text"
 
 runCommandAsLocalUser() {
   su --login "${USERNAME}" --shell /bin/bash --command "${@}"
