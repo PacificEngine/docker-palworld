@@ -9,13 +9,13 @@ my $CURRENT_USERS_FILE="$ARGV[1]";
 my $LOG_DATE_FORMAT="+%FT%H:%M:%S";
 my $REGEX_SEVER_START=REGEX->Arguments('--find', "Game version is v(.+)", '--group', 1, '--iterator', '--trim');
 my $REGEX_SESSION_START=REGEX->Arguments('--find', "Running Palworld dedicated server on (.+)", '--group', 1, '--iterator', '--trim');
-my $REGEX_PLAYER_CONNECT_ID=REGEX->Arguments('--find', "[LOG] (.+) ([a-zA-Z0-9.]+) connected the server. \\(User id: (.+)\\)", '--group', 3, '--iterator', '--trim');
-my $REGEX_PLAYER_CONNECT_NAME=REGEX->Arguments('--find', "[LOG] (.+) (.+) connected the server. \\(User id: (.+)\\)", '--group', 1, '--iterator', '--trim');
-my $REGEX_PLAYER_CONNECT_IP=REGEX->Arguments('--find', "[LOG] (.+) (.+) connected the server. \\(User id: (.+)\\)", '--group', 2, '--iterator', '--trim');
-my $REGEX_PLAYER_JOIN_ID=REGEX->Arguments('--find', "[LOG] (.+) joined the server. \\(User id: (.+)\\)", '--group', 2, '--iterator', '--trim');
-my $REGEX_PLAYER_JOIN_NAME=REGEX->Arguments('--find', "[LOG] (.+) joined the server. \\(User id: (.+)\\)", '--group', 1, '--iterator', '--trim');
-my $REGEX_PLAYER_LEAVE_ID=REGEX->Arguments('--find', "[LOG] (.+) left the server. \\(User id: (.+)\\)", '--group', 2, '--iterator', '--trim');
-my $REGEX_PLAYER_LEAVE_NAME=REGEX->Arguments('--find', "[LOG] (.+) left the server. \\(User id: (.+)\\)", '--group', 1, '--iterator', '--trim');
+my $REGEX_PLAYER_CONNECT_ID=REGEX->Arguments('--find', "\\[LOG\\] (.+) ([a-zA-Z0-9\\.]+) connected the server\\. \\(User id: (.+)\\)", '--group', 3, '--iterator', '--trim');
+my $REGEX_PLAYER_CONNECT_NAME=REGEX->Arguments('--find', "\\[LOG\\] (.+) (.+) connected the server\\. \\(User id: (.+)\\)", '--group', 1, '--iterator', '--trim');
+my $REGEX_PLAYER_CONNECT_IP=REGEX->Arguments('--find', "\\[LOG\\] (.+) (.+) connected the server\\. \\(User id: (.+)\\)", '--group', 2, '--iterator', '--trim');
+my $REGEX_PLAYER_JOIN_ID=REGEX->Arguments('--find', "\\[LOG\\] (.+) joined the server\\. \\(User id: (.+)\\)", '--group', 2, '--iterator', '--trim');
+my $REGEX_PLAYER_JOIN_NAME=REGEX->Arguments('--find', "\\[LOG\\] (.+) joined the server\\. \\(User id: (.+)\\)", '--group', 1, '--iterator', '--trim');
+my $REGEX_PLAYER_LEAVE_ID=REGEX->Arguments('--find', "\\[LOG\\] (.+) left the server\\. \\(User id: (.+)\\)", '--group', 2, '--iterator', '--trim');
+my $REGEX_PLAYER_LEAVE_NAME=REGEX->Arguments('--find', "\\[LOG\\] (.+) left the server\\. \\(User id: (.+)\\)", '--group', 1, '--iterator', '--trim');
 
 
 open(SIMPLE, '>>', $SIMPLE_LOG_FILE) or die("Unable to open ${SIMPLE_LOG_FILE}");
