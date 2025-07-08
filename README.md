@@ -6,6 +6,7 @@ https://hub.docker.com/r/pacificengine/palworld
 ```shell
 serverport=8211
 apiport=8212
+queryport=27015
 directory=/home/palworld
 username=palworld
 service=palworld
