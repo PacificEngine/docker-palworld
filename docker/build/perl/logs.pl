@@ -81,7 +81,8 @@ sub processLine($) {
     my ($line) = @_;
     my $id='';
     my $name='';
-    my $time='';
+    my $version='';
+    my $address='';
 
     $version=$REGEX_SEVER_START->Process($line)->();
     if ($version) {

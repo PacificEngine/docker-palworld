@@ -152,7 +152,7 @@ startServer() {
 
   if [[ "$(cat "${PROCESS_STATUS_FILE}")" == "STARTING" ]]; then
     log "Booting Server"
-    runCommandAsLocalUser "tail --follow=name --retry --lines=0 '${INPUT_FILE}' | '${START_SCRIPT}' ${START_ARGUMENTS}" > "${MAIN_LOG_FILE}" &
+    runCommandAsLocalUser "tail --follow=name --retry --lines=0 '${INPUT_FILE}' | '${START_SCRIPT}' ${START_ARGUMENTS} > '${MAIN_LOG_FILE}' 2>&1" &
     while [[ "$(cat "${PROCESS_STATUS_FILE}")" == "STARTING" ]]; do
       id="$(getServerProcessId)"
       if [[ -n "${id}" ]]; then
