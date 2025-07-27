@@ -1,4 +1,4 @@
 #!/bin/bash
-source /build/server.sh
+source /build/functions/server.sh
 
 startServer

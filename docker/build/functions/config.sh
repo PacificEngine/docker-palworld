@@ -1,9 +1,8 @@
 #!/bin/bash
+source /build/functions/variables.sh
+source /build/functions/log.sh
 source /server/regex.sh
 source /server/properties.sh
-
-CONFIG_DIRECTORY="$(getProperty "CONFIG_DIRECTORY")"
-PORT_API="${PORT_API:-$(getProperty "PORT_API")}"
 
 setToDefaultConfig() {
   echo '''
@@ -32,9 +31,9 @@ setConfig() {
 
 updateConfig() {
   if [[ "$(hasValue "${1}")" == 'false' ]]; then
-    echo "Unable to set value for '${1}'"
+    log "Unable to set value for '${1}'"
   elif [[ "$(getConfig "${1}")" != "${2}" ]]; then
-    echo "Updating value for '${1}'"
+    log "Updating value for '${1}'"
     setConfig "${1}" "${2}"
   fi
 }
@@ -46,7 +45,7 @@ updateConfigSettings() {
   local OLD_IFS="${IFS}"
 
   if [[ "$(hasValue "Difficulty")" == 'false' ]]; then
-    echo "No config file found, creating one"
+    log "No config file found, creating one"
     setToDefaultConfig
   fi
 

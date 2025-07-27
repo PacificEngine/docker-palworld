@@ -1,5 +1,5 @@
 #!/bin/bash
-source /build/pals/config.sh
+source /build/functions/config.sh
 
 getApiHost() {
   echo '127.0.0.1'

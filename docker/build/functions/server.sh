@@ -1,52 +1,11 @@
 #!/bin/bash
-source /build/pals/commands.sh
-source /build/pals/config.sh
+
+source /build/functions/variables.sh
+source /build/functions/log.sh
+source /build/functions/commands.sh
+source /build/functions/config.sh
 source /server/regex.sh
 source /server/process.sh
-source /server/properties.sh
-
-INSTALL_DIRECTORY="$(getProperty "INSTALL_DIRECTORY")"
-LOG_DIRECTORY="$(getProperty "LOG_DIRECTORY")"
-CONFIG_DIRECTORY="$(getProperty "CONFIG_DIRECTORY")"
-USERNAME="$(getProperty "USERNAME")"
-USERGROUP="$(getProperty "USERGROUP")"
-GAME_ID="$(getProperty "GAME_ID")"
-
-IP_SERVER="${IP_SERVER:-$(getProperty "IP_SERVER")}"
-PORT_SERVER="${PORT_SERVER:-$(getProperty "PORT_SERVER")}"
-PORT_PUBLIC="${PORT_PUBLIC:-$(getProperty "PORT_PUBLIC")}"
-PORT_QUERY="${PORT_QUERY:-$(getProperty "PORT_QUERY")}"
-AUTO_UPDATE="${AUTO_UPDATE:-$(getProperty "AUTO_UPDATE")}"
-THREAD_COUNT="${THREAD_COUNT:-$(getProperty "THREAD_COUNT")}"
-PLAYER_COUNT="${PLAYER_COUNT:-$(getProperty "PLAYER_COUNT")}"
-ADDITIONAL_COMMANDS=''
-if [[ "${IS_PUBLIC:-$(getProperty "IS_PUBLIC")}" == 'true' ]]; then
-  ADDITIONAL_COMMANDS="${ADDITIONAL_COMMANDS} -publiclobby -publicip=${IP_SERVER} -publicport=${PORT_PUBLIC}"
-fi
-if [[ "${THREAD_COUNT}" -gt '1' ]]; then
-  ADDITIONAL_COMMANDS="${ADDITIONAL_COMMANDS} -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS"
-fi
-
-DATE="$(date "+%F-%H:%M:%S")"
-LOG_DATE_FORMAT="+%FT%H:%M:%S"
-INPUT_FILE="${LOG_DIRECTORY}/input.log"
-UPDATE_LOG_FILE="${LOG_DIRECTORY}/update.log"
-SIMPLE_LOG_FILE="${LOG_DIRECTORY}/simple.log"
-CURRENT_USERS_FILE="${LOG_DIRECTORY}/user.csv"
-MAIN_LOG_FILE="${LOG_DIRECTORY}/PalWorld.log"
-PROCESS_ID_FILE="${INSTALL_DIRECTORY}/process.id"
-PROCESS_STATUS_FILE="${INSTALL_DIRECTORY}/process.status"
-UPDATE_SCRIPT="${INSTALL_DIRECTORY}/update.script"
-START_SCRIPT="${INSTALL_DIRECTORY}/PalServer.sh"
-START_ARGUMENTS="-port=${PORT_SERVER} -queryport=${PORT_QUERY} -players=${PLAYER_COUNT} ${ADDITIONAL_COMMANDS} -NumberOfWorkerThreadsServer=${THREAD_COUNT} -logformat=text"
-
-runCommandAsLocalUser() {
-  su --login "${USERNAME}" --shell /bin/bash --command "${@}"
-}
-
-log() {
-  runCommandAsLocalUser "echo '[$(date "${LOG_DATE_FORMAT}")] ${1}' >> '${SIMPLE_LOG_FILE}'"
-}
 
 getServerProcessId() {
   local id="$(cat "${PROCESS_ID_FILE}")"
@@ -57,27 +16,6 @@ getServerProcessId() {
   echo "${id}"
 }
 
-saveLogFiles() {
-  if [[ -f "${INPUT_FILE}" ]]; then
-    runCommandAsLocalUser "mv '${INPUT_FILE}' '${LOG_DIRECTORY}/$(head --lines=1 "${INPUT_FILE}")'"
-  fi
-  if [[ -f "${UPDATE_LOG_FILE}" ]]; then
-    runCommandAsLocalUser "mv '${UPDATE_LOG_FILE}' '${LOG_DIRECTORY}/$(head --lines=1 "${UPDATE_LOG_FILE}")'"
-  fi
-  if [[ -f "${SIMPLE_LOG_FILE}" ]]; then
-    runCommandAsLocalUser "mv '${SIMPLE_LOG_FILE}' '${LOG_DIRECTORY}/$(head --lines=1 "${SIMPLE_LOG_FILE}")'"
-  fi
-  runCommandAsLocalUser "rm ${CURRENT_USERS_FILE}"
-}
-
-createLogFiles() {
-  saveLogFiles
-  runCommandAsLocalUser "echo 'input.${DATE}.log' > '${INPUT_FILE}'"
-  runCommandAsLocalUser "echo 'update.${DATE}.log' > '${UPDATE_LOG_FILE}'"
-  runCommandAsLocalUser "echo 'simple.${DATE}.log' > '${SIMPLE_LOG_FILE}'"
-  runCommandAsLocalUser "touch '${CURRENT_USERS_FILE}'"
-}
-
 updateUser() {
   if [[ -n "${PUID}" ]]; then
     usermod --non-unique --uid "${PUID}" ${USERNAME}
@@ -86,6 +24,7 @@ updateUser() {
     groupmod --non-unique --gid "${PGID}" ${USERGROUP}
   fi
   chown "${USERNAME}":"${USERGROUP}" -R "${INSTALL_DIRECTORY}"
+  chown "${USERNAME}":"${USERGROUP}" -R "${CONFIG_DIRECTORY}"
   chown "${USERNAME}":"${USERGROUP}" "${LOG_DIRECTORY}"
 }
 
