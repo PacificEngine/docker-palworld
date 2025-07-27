@@ -3,7 +3,8 @@ source /server/regex.sh
 source /server/properties.sh
 
 CONFIG_DIRECTORY="$(getProperty "CONFIG_DIRECTORY")"
-CONFIG_UPDATES="${CONFIG_UPDATES}"
+PORT_API="${PORT_API:-$(getProperty "PORT_API")}"
+CONFIG_UPDATES="RESTAPIEnabled=True,RESTAPIPort=${PORT_API},${CONFIG_UPDATES}"
 
 setToDefaultConfig() {
   echo '''
@@ -27,14 +28,15 @@ getConfig() {
 }
 
 setConfig() {
-  sed -i 's/${1}=[^,]*/${1}=${2}/g' "${CONFIG_DIRECTORY}/PalWorldSettings.ini"
+  sed -i "s/${1}=[^,]*/${1}=${2}/g" "${CONFIG_DIRECTORY}/PalWorldSettings.ini"
 }
 
 updateConfig() {
   if [[ "$(hasValue "${1}")" == 'false' ]]; then
     echo "Unable to set value for '${1}'"
-  else
-    sed -i "s/${1}=[^,]*/${1}=${2}/g" "${CONFIG_DIRECTORY}/PalWorldSettings.ini"
+  elif [[ "$(getConfig "${1}")" != "${2}" ]]; then
+    echo "Updating value for '${1}'"
+    setConfig "${1}" "${2}"
   fi
 }
 
@@ -53,7 +55,7 @@ updateConfigSettings() {
     key=${config%=*}
     value=${config#*=}
     if [[ -n "${key}" ]]; then
-      setConfig "${key}" "${value}"
+      updateConfig "${key}" "${value}"
     fi
   done
   IFS="${OLD_IFS}"
