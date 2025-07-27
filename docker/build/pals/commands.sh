@@ -14,7 +14,9 @@ getApiUser() {
 }
 
 getApiPassword() {
-  getConfig 'AdminPassword'
+  local password=''
+  password="$(getConfig 'AdminPassword')"
+  echo "${password:1:-1}"
 }
 
 # https://docs.palworldgame.com/api/rest-api/info
@@ -42,7 +44,8 @@ getServerPlayerList() {
 saveGame() {
   curl --insecure --fail --request POST "http://$(getApiHost):$(getApiPort)/v1/api/save" \
     --user "$(getApiUser):$(getApiPassword)" \
-    --header 'Accept: application/json'
+    --header 'Accept: application/json' \
+    --data ''
 }
 
 # https://docs.palworldgame.com/api/rest-api/shutdown
