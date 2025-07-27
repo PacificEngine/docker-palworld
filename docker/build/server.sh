@@ -101,7 +101,7 @@ updateServer() {
 shutdownServer() {
   saveGame
   shutdownGracefully 1
-  sleep 5
+  sleep 10
 }
 
 stopServer() {
