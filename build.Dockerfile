@@ -14,6 +14,7 @@ ARG CONFIG_DIRECTORY="${INSTALL_DIRECTORY}/Pal/Saved/Config/LinuxServer"
 ARG USERNAME='palworld'
 ARG USERGROUP='palworld'
 RUN mkdir --parents ${LOG_DIRECTORY} && \
+  mkdir --parents ${CONFIG_DIRECTORY} && \
   mkdir --parents ${INSTALL_DIRECTORY} && \
   groupadd ${USERGROUP} && \
   useradd --system --gid ${USERGROUP} --shell /usr/sbin/nologin ${USERNAME} && \
