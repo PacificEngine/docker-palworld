@@ -4,7 +4,6 @@ source /server/properties.sh
 
 CONFIG_DIRECTORY="$(getProperty "CONFIG_DIRECTORY")"
 PORT_API="${PORT_API:-$(getProperty "PORT_API")}"
-CONFIG_UPDATES="RESTAPIEnabled=True,RESTAPIPort=${PORT_API},${CONFIG_UPDATES}"
 
 setToDefaultConfig() {
   echo '''
@@ -43,6 +42,7 @@ updateConfig() {
 updateConfigSettings() {
   local key=''
   local value=''
+  local updates="RESTAPIEnabled=True,RESTAPIPort=${PORT_API},${CONFIG_UPDATES}"
   local OLD_IFS="${IFS}"
 
   if [[ "$(hasValue "Difficulty")" == 'false' ]]; then
@@ -51,7 +51,7 @@ updateConfigSettings() {
   fi
 
   IFS=','
-  for config in `echo "${CONFIG_UPDATES}"`; do
+  for config in `echo "${updates}"`; do
     key=${config%=*}
     value=${config#*=}
     if [[ -n "${key}" ]]; then

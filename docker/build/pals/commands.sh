@@ -21,28 +21,28 @@ getApiPassword() {
 
 # https://docs.palworldgame.com/api/rest-api/info
 getServerInfo() {
-  curl --insecure --fail --request GET "http://$(getApiHost):$(getApiPort)/v1/api/info" \
+  curl --insecure --fail --silent --request GET "http://$(getApiHost):$(getApiPort)/v1/api/info" \
     --user "$(getApiUser):$(getApiPassword)" \
     --header 'Accept: application/json'
 }
 
 # https://docs.palworldgame.com/api/rest-api/metrics
 getServerStatus() {
-  curl --insecure --fail --request GET "http://$(getApiHost):$(getApiPort)/v1/api/metrics" \
+  curl --insecure --fail --silent --request GET "http://$(getApiHost):$(getApiPort)/v1/api/metrics" \
     --user "$(getApiUser):$(getApiPassword)" \
     --header 'Accept: application/json'
 }
 
 # https://docs.palworldgame.com/api/rest-api/players
 getServerPlayerList() {
-  curl --insecure --fail --request GET "http://$(getApiHost):$(getApiPort)/v1/api/players" \
+  curl --insecure --fail --silent --request GET "http://$(getApiHost):$(getApiPort)/v1/api/players" \
     --user "$(getApiUser):$(getApiPassword)" \
     --header 'Accept: application/json'
 }
 
 # https://docs.palworldgame.com/api/rest-api/save
 saveGame() {
-  curl --insecure --fail --request POST "http://$(getApiHost):$(getApiPort)/v1/api/save" \
+  curl --insecure --fail --silent --request POST "http://$(getApiHost):$(getApiPort)/v1/api/save" \
     --user "$(getApiUser):$(getApiPassword)" \
     --header 'Accept: application/json' \
     --data ''
@@ -52,7 +52,7 @@ saveGame() {
 shutdownGracefully() {
   local time="${1:-1}"
   local message="${2:-"Server is shutting down in ${time} seconds."}"
-  curl --insecure --fail --request POST "http://$(getApiHost):$(getApiPort)/v1/api/shutdown" \
+  curl --insecure --fail --silent --request POST "http://$(getApiHost):$(getApiPort)/v1/api/shutdown" \
     --user "$(getApiUser):$(getApiPassword)" \
     --header 'Accept: application/json' \
     --header 'Content-Type: application/json' \
@@ -61,7 +61,7 @@ shutdownGracefully() {
 
 # https://docs.palworldgame.com/api/rest-api/stop
 shutdownForcefully() {
-  curl --insecure --fail --request POST "http://$(getApiHost):$(getApiPort)/v1/api/stop" \
+  curl --insecure --fail --silent --request POST "http://$(getApiHost):$(getApiPort)/v1/api/stop" \
     --user "$(getApiUser):$(getApiPassword)" \
     --header 'Accept: application/json'
 }
