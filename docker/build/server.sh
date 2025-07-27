@@ -1,10 +1,13 @@
 #!/bin/bash
+source /build/pals/commands.sh
+source /build/pals/config.sh
 source /server/regex.sh
 source /server/process.sh
 source /server/properties.sh
 
 INSTALL_DIRECTORY="$(getProperty "INSTALL_DIRECTORY")"
 LOG_DIRECTORY="$(getProperty "LOG_DIRECTORY")"
+CONFIG_DIRECTORY="$(getProperty "CONFIG_DIRECTORY")"
 USERNAME="$(getProperty "USERNAME")"
 USERGROUP="$(getProperty "USERGROUP")"
 GAME_ID="$(getProperty "GAME_ID")"
@@ -95,6 +98,12 @@ updateServer() {
   fi
 }
 
+shutdownServer() {
+  saveGame
+  shutdownGracefully 1
+  sleep 5
+}
+
 stopServer() {
   local id=''
   local waitTime=0;
@@ -105,6 +114,7 @@ stopServer() {
   id="$(getServerProcessId)"
   if [[ -n "${id}" ]]; then
     log "Server Shutting Down"
+    shutdownServer
     stopProcess "${id}"
     for (( waitTime=0; waitTime<=${maximumWaitTime}; waitTime++ )); do
       if [[ -z "$(ps --pid ${id} --no-headers)" ]]; then
@@ -146,6 +156,7 @@ startServer() {
 
   updateUser
   createLogFiles
+  updateConfigSettings
   if [[ "$(cat "${PROCESS_STATUS_FILE}")" == "STARTING" ]]; then
     updateServer
   fi

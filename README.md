@@ -34,6 +34,7 @@ docker run -d --name ${service} \
   --env AUTO_UPDATE=true \
   --env PUID=$(id -u ${username}) \
   --env PGID=$(id -g ${username}) \
+  --env CONFIG_UPDATES='ServerName="Palworld Server",AdminPassword="password"' \
   --mount type=bind,source=${directory}/logs,target=/home/palworld/Pal/Saved/Logs \
   --mount type=bind,source=${directory}/config,target=/home/palworld/Pal/Saved/Config/LinuxServer \
   --mount type=bind,source=${directory}/saves,target=/home/palworld/Pal/Saved/SaveGames \
@@ -53,7 +54,7 @@ docker system prune -a
 ## Stable
 ```shell
 DISTRIBUTION=ubuntu-20
-GAME_VERSION=0.6.1
+GAME_VERSION=0.6.2
 GIT_VERSION="$(git rev-parse --short HEAD)"
 docker build --file "build.Dockerfile" --tag "palworld:latest" --build-arg DISTRIBUTION=${DISTRIBUTION} .
 docker image tag palworld:latest pacificengine/palworld:${DISTRIBUTION}-stable

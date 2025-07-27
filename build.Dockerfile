@@ -10,6 +10,7 @@ RUN apt-get update && \
 
 ARG INSTALL_DIRECTORY='/home/palworld'
 ARG LOG_DIRECTORY="${INSTALL_DIRECTORY}/Pal/Saved/Logs"
+ARG CONFIG_DIRECTORY="${INSTALL_DIRECTORY}/Pal/Saved/Config/LinuxServer"
 ARG USERNAME='palworld'
 ARG USERGROUP='palworld'
 RUN mkdir --parents ${LOG_DIRECTORY} && \
@@ -17,17 +18,16 @@ RUN mkdir --parents ${LOG_DIRECTORY} && \
   groupadd ${USERGROUP} && \
   useradd --system --gid ${USERGROUP} --shell /usr/sbin/nologin ${USERNAME} && \
   chown ${USERNAME}:${USERGROUP} -R ${LOG_DIRECTORY} && \
+  chown ${USERNAME}:${USERGROUP} -R ${CONFIG_DIRECTORY} && \
   chown ${USERNAME}:${USERGROUP} -R ${INSTALL_DIRECTORY} && \
   chmod 755 -R ${LOG_DIRECTORY} && \
+  chmod 755 -R ${CONFIG_DIRECTORY} && \
   chmod 755 -R ${INSTALL_DIRECTORY}
 
 ARG GAME_ID='2394010'
 COPY install ${INSTALL_DIRECTORY}
 RUN cat "${INSTALL_DIRECTORY}/update.script.template" \
     | sed --regexp-extended "s/<%INSTALL_DIRECTORY%>/${INSTALL_DIRECTORY//\//\\/}/g" \
-    | sed --regexp-extended "s/<%LOG_DIRECTORY%>/${LOG_DIRECTORY//\//\\/}/g" \
-    | sed --regexp-extended "s/<%USERNAME%>/${USERNAME//\//\\/}/g" \
-    | sed --regexp-extended "s/<%USERGROUP%>/${USERGROUP//\//\\/}/g" \
     | sed --regexp-extended "s/<%GAME_ID%>/${GAME_ID//\//\\/}/g" \
     > "${INSTALL_DIRECTORY}/update.script" && \
   rm "${INSTALL_DIRECTORY}/update.script.template" && \
@@ -41,13 +41,13 @@ ARG THREAD_COUNT=''
 ARG PLAYER_COUNT=''
 ARG PORT_SERVER=''
 ARG PORT_QUERY=''
-ARG PORT_API=''
 ARG IS_PUBLIC=''
 ARG AUTO_UPDATE=''
 COPY docker /
 RUN cat '/server/properties.template' \
     | sed --regexp-extended "s/<%INSTALL_DIRECTORY%>/${INSTALL_DIRECTORY//\//\\/}/g" \
     | sed --regexp-extended "s/<%LOG_DIRECTORY%>/${LOG_DIRECTORY//\//\\/}/g" \
+    | sed --regexp-extended "s/<%CONFIG_DIRECTORY%>/${CONFIG_DIRECTORY//\//\\/}/g" \
     | sed --regexp-extended "s/<%USERNAME%>/${USERNAME//\//\\/}/g" \
     | sed --regexp-extended "s/<%USERGROUP%>/${USERGROUP//\//\\/}/g" \
     | sed --regexp-extended "s/<%GAME_ID%>/${GAME_ID//\//\\/}/g" \
