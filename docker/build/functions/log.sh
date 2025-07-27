@@ -1,5 +1,5 @@
 #!/bin/bash
-source /server/variables.sh
+source /build/functions/variables.sh
 
 runCommandAsLocalUser() {
   su --login "${USERNAME}" --shell /bin/bash --command "${@}"

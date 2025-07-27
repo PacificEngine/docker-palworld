@@ -1,5 +1,5 @@
 #!/bin/bash
-source /build/functions/server.sh
+source /build/all.sh
 
 if [[ "${1}" == 'getServerInfo' ]]; then
   getServerInfo

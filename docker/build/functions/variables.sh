@@ -1,5 +1,4 @@
 #!/bin/bash
-
 source /server/properties.sh
 
 INSTALL_DIRECTORY="$(getProperty "INSTALL_DIRECTORY")"

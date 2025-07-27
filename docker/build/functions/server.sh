@@ -1,11 +1,6 @@
 #!/bin/bash
-
-source /build/functions/variables.sh
-source /build/functions/log.sh
-source /build/functions/commands.sh
-source /build/functions/config.sh
-source /server/regex.sh
 source /server/process.sh
+source /build/functions/commands.sh
 
 getServerProcessId() {
   local id="$(cat "${PROCESS_ID_FILE}")"

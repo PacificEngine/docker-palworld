@@ -1,8 +1,5 @@
 #!/bin/bash
-source /build/functions/variables.sh
 source /build/functions/log.sh
-source /server/regex.sh
-source /server/properties.sh
 
 setToDefaultConfig() {
   echo '''
