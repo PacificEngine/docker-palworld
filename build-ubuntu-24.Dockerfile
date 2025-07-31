@@ -35,7 +35,7 @@ RUN cat "${INSTALL_DIRECTORY}/update.script.template" \
   chmod 555 "${INSTALL_DIRECTORY}/update.script"
 
 RUN chmod 777 -R /tmp && \
-  su --login ${USERNAME} --shell /bin/bash --command "steamcmd +runscript '${INSTALL_DIRECTORY}/update.script'"
+  su -l ${USERNAME} -s /bin/bash -c "steamcmd +runscript '${INSTALL_DIRECTORY}/update.script'"
 
 ARG IP_SERVER=''
 ARG THREAD_COUNT=''
