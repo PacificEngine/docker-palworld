@@ -2,7 +2,7 @@
 source /build/functions/variables.sh
 
 runCommandAsLocalUser() {
-  su --login "${USERNAME}" --shell /bin/bash --command "${@}"
+  su -l "${USERNAME}" -s /bin/bash -c "${@}"
 }
 
 log() {

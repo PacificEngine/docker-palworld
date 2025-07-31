@@ -53,10 +53,10 @@ docker system prune -a
 
 ## Stable
 ```shell
-DISTRIBUTION=ubuntu-24
+DISTRIBUTION=alpine-3
 GAME_VERSION=0.6.4
 GIT_VERSION="$(git rev-parse --short HEAD)"
-docker build --file "build.Dockerfile" --tag "palworld:latest" --build-arg DISTRIBUTION=${DISTRIBUTION} .
+docker build --file "build-${DISTRIBUTION}.Dockerfile" --tag "palworld:latest" --build-arg DISTRIBUTION=${DISTRIBUTION} .
 docker image tag palworld:latest pacificengine/palworld:${DISTRIBUTION}-stable
 docker image tag palworld:latest pacificengine/palworld:stable
 docker image tag palworld:latest pacificengine/palworld:${DISTRIBUTION}-latest

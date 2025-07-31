@@ -1,4 +1,4 @@
-ARG DISTRIBUTION='ubuntu-20'
+ARG DISTRIBUTION='ubuntu-24'
 FROM steamcmd/steamcmd:${DISTRIBUTION}
 
 RUN apt-get update && \
