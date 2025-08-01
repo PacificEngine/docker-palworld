@@ -4,9 +4,14 @@ FROM steamcmd/steamcmd:${DISTRIBUTION}
 RUN apt-get update && \
   apt-get upgrade -y && \
   apt-get install -y \
+    bash \
+	sudo \
     coreutils \
     curl \
-    jq
+    jq \
+    iproute2 \
+    iputils-ping \
+    net-tools
 
 ARG INSTALL_DIRECTORY='/home/palworld'
 ARG LOG_DIRECTORY="${INSTALL_DIRECTORY}/Pal/Saved/Logs"

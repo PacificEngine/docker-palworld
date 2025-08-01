@@ -8,7 +8,9 @@ RUN apk update && \
 	sudo \
     coreutils \
     curl \
-    jq
+    jq \
+    iputils-ping \
+    net-tools
 
 ARG INSTALL_DIRECTORY='/home/palworld'
 ARG LOG_DIRECTORY="${INSTALL_DIRECTORY}/Pal/Saved/Logs"
